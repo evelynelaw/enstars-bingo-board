@@ -52,7 +52,7 @@ const cellCoordsToA1 = (r1, c1, r2 = null, c2 = null) => {
 }
 
 const getMetaData = async() => {
-    const metadata = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data_test!B2:C2?key=${apiKey}`);
+    const metadata = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data!B2:C2?key=${apiKey}`);
     const json = await metadata.json();
     console.log(json);
 
@@ -61,7 +61,7 @@ const getMetaData = async() => {
 }
 
 const getSquareTextData = async() => {
-    const square_texts = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data_test!B3:F7?key=${apiKey}`);
+    const square_texts = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data!B3:F7?key=${apiKey}`);
     const json = await square_texts.json();
     console.log(json);
 
@@ -80,7 +80,7 @@ const getSquareTextData = async() => {
 }
 
 const getFilledData = async() => {
-    const square_statuses = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data_test!G3:K7?key=${apiKey}`);
+    const square_statuses = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data!G3:K7?key=${apiKey}`);
     const json = await square_statuses.json();
     console.log(json);
 
