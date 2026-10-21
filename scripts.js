@@ -52,12 +52,29 @@ const cellCoordsToA1 = (r1, c1, r2 = null, c2 = null) => {
 }
 
 const getMetaData = async() => {
-    const metadata = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data!B2:C2?key=${apiKey}`);
+    const metadata = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data!B2:D2?key=${apiKey}`);
     const json = await metadata.json();
     console.log(json);
 
-    const id = json["values"][0][0]
-    integer_id = getIntegerIDFromStringID(id)
+    const id = json["values"][0][0];
+    document.getElementById("bingo-id-p").innerHTML = `Bingo ID: <tt>${id}</tt>`;
+    integer_id = getIntegerIDFromStringID(id);
+
+    const bingo_status = json["values"][0][1];
+    const status_p = document.getElementById("status-p");
+    if (bingo_status == "CONCLUDED") {
+        status_p.classList.add("text-red-700");
+    }
+    if (bingo_status == "NOT_OPEN") {
+        status_p.classList.add("text-blue-700");
+    }
+    if (bingo_status == "ONGOING") {
+        status_p.classList.add("text-green-700");
+    }
+    status_p.innerHTML = `Status: ${bingo_status.replace("_", " ")}`
+
+    const author = json["values"][0][2];
+    document.getElementById("author-p").innerHTML = `Authored by: <b>${author}</b>`
 }
 
 const getSquareTextData = async() => {
