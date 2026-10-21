@@ -22,6 +22,35 @@ const getIntegerIDFromStringID = (string_id) => {
     return current_int_id;
 }
 
+const cellCoordsToA1 = (r1, c1, r2 = null, c2 = null) => {
+    if (r2 != null && c2 != null) {
+        cellA1_1 = cellCoordsToA1(r1, c1);
+        cellA1_2 = cellCoordsToA1(r2, c2);
+        return `${cellA1_1}:${cellA1_2}`;
+    }
+
+    const a_char_code = "A".charCodeAt(0);
+    let max_power = 1;
+    // I doubt we're going past ~26^8 bingo boards
+    for (let i = 0; i < 8; i++) {
+        if (c1 < Math.pow(26, max_power)) {
+            break;
+        }
+        c1 -= Math.pow(26, max_power);
+        max_power += 1;
+    }
+
+    // max_power is the number of letters in the output.
+    // c1 is the value of the output if interpreted as a base-26 string.
+    let col_string = "";
+    for (let i = max_power - 1; i >= 0; i--) {
+        col_string += String.fromCharCode(a_char_code + Math.floor(c1 / Math.pow(26, i)));
+        c1 %= Math.pow(26, i);
+    }
+
+    return `${col_string}${r1+1}`
+}
+
 const getMetaData = async() => {
     const metadata = await fetch(`${baseUrl}/v4/spreadsheets/${sheetId}/values/bingo_board_data_test!B2:C2?key=${apiKey}`);
     const json = await metadata.json();
@@ -113,4 +142,3 @@ const getFilledData = async() => {
     getSquareTextData()
     getFilledData()
 })()
-
